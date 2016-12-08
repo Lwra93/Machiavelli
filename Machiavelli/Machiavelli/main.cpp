@@ -3,8 +3,7 @@
 
 int main(int argc, const char * argv[])
 {
-   
-	Game game;
+	game::Game game;
 	game.initialise();
 
 }

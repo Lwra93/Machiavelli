@@ -2,15 +2,24 @@
 #include "Game.h"
 #include <thread>
 #include "config.h"
+#include <map>
+#include "BuildCard.h"
+#include "CharacterCard.h"
+#include "Factory.h"
 
 namespace game
 {
 
-	//static map <id, card> building cards
-	//static map <id, card> character cards
+	static map<int, BuildCard> buildCards;
+	static map<int, CharacterCard> characterCards;
+		//static map <id, card> building cards
+		//static map <id, card> character cards
 
 	void Game::initialise() const
 	{
+
+		if(characterCards.size() == 0)
+			characterCards = move(factory::get_characters("karakterkaarten.csv"));
 
 		thread consumer(commands::consume);
 		ServerSocket socket{ config::port };

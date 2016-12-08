@@ -19,6 +19,24 @@
     <Filter Include="Header Files\Commands">
       <UniqueIdentifier>{01c0dd0a-a368-4466-a9fd-fac771504029}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Cards">
+      <UniqueIdentifier>{d7a5b726-a24e-471a-8253-5956321b93fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Cards\Build">
+      <UniqueIdentifier>{e21385d5-4e12-4bd2-aa87-7bdc4e32557a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Cards\Character">
+      <UniqueIdentifier>{3ab0f0b2-aff2-40ea-aa1b-0f250e71f7b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Cards">
+      <UniqueIdentifier>{8e4ca2d2-e9e4-4b54-b583-9b17d9a3972e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Cards\Build">
+      <UniqueIdentifier>{bc4043f8-02ee-4d46-b2d2-5f2c64dda178}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Cards\Character">
+      <UniqueIdentifier>{09d59392-6ec0-4f8c-913f-957498393035}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -41,6 +59,12 @@
     </ClCompile>
     <ClCompile Include="Client.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterCard.cpp">
+      <Filter>Source Files\Cards\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildCard.cpp">
+      <Filter>Source Files\Cards\Build</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -74,5 +98,22 @@
     <ClInclude Include="Client.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CharacterCard.h">
+      <Filter>Header Files\Cards\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildCard.h">
+      <Filter>Header Files\Cards\Build</Filter>
+    </ClInclude>
+    <ClInclude Include="Factory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Bouwkaarten.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="karakterkaarten.csv">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

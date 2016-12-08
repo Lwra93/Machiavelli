@@ -110,6 +110,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BuildCard.cpp" />
+    <ClCompile Include="CharacterCard.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="ClientCommand.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -119,16 +121,23 @@
     <ClCompile Include="throw.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BuildCard.h" />
+    <ClInclude Include="CharacterCard.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="ClientCommand.h" />
     <ClInclude Include="ClientInfo.h" />
     <ClInclude Include="CommandHandler.h" />
     <ClInclude Include="config.h" />
+    <ClInclude Include="Factory.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Socket.h" />
     <ClInclude Include="Sync_queue.h" />
     <ClInclude Include="throw.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Bouwkaarten.csv" />
+    <None Include="karakterkaarten.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
