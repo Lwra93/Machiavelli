@@ -7,49 +7,58 @@
 #include "CharacterCard.h"
 #include "Factory.h"
 
-namespace game
+
+void Game::initialise()
 {
 
-	static map<int, BuildCard> buildCards;
-	static map<int, CharacterCard> characterCards;
-		//static map <id, card> building cards
-		//static map <id, card> character cards
+	characterCards = move(factory::get_characters(config::characterCardsLocation));
+	//buildCards = move(factory::get_buildings(config::buildingCardsLocation));
 
-	void Game::initialise() const
-	{
+	thread consumer(commands::consume);
+	ServerSocket socket{ config::port };
+	this->run_server(move(socket));
+	consumer.join();
 
-		if(characterCards.size() == 0)
-			characterCards = move(factory::get_characters("karakterkaarten.csv"));
+}
 
-		thread consumer(commands::consume);
-		ServerSocket socket{ config::port };
-		this->run_server(move(socket));
-		consumer.join();
+void Game::run_server(ServerSocket server) const
+{
 
-	}
+	while (true) {
+		try {
+			while (true) {
+				cerr << "server listening" << '\n';
+				auto client{ server.accept() };
 
-	void Game::run_server(ServerSocket server) const
-	{
-
-		while (true) {
-			try {
-				while (true) {
-					cerr << "server listening" << '\n';
-					auto client{ server.accept() };
-
-					thread handler{ client::handle, move(client) };
-					handler.detach();
-				}
+				thread handler{ client::handle, move(client) };
+				handler.detach();
 			}
-			catch (const exception& ex) {
-				cerr << ex.what() << ", resuming..." << '\n';
-			}
-			catch (...) {
-				cerr << "problems, problems, but: keep calm and carry on!\n";
-			}
+		}
+		catch (const exception& ex) {
+			cerr << ex.what() << ", resuming..." << '\n';
+		}
+		catch (...) {
+			cerr << "problems, problems, but: keep calm and carry on!\n";
 		}
 	}
 }
+
+CharacterCard Game::get_card(string name)
+{
+	for(auto card : characterCards)
+	{
+		if (card.get_name() == name)
+			return card;
+	}
+	
+}
+
+CharacterCard Game::get_card(int id)
+{
+	
+}
+
+
 
 
 

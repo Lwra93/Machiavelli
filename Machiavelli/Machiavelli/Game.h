@@ -4,21 +4,25 @@
 #include "Socket.h"
 #include "Client.h"
 #include <memory>
+#include <map>
+#include "BuildCard.h"
+#include "CharacterCard.h"
 
 using namespace std;
 
-namespace game
+class Game
 {
-	class Game
-	{
 
-	public:
-		void initialise() const;
-		void run_server(ServerSocket socket) const;
+public:
+	void initialise();
+	void run_server(ServerSocket socket) const;
 
-	private:
-		int connected = 0;
+	CharacterCard get_card(string name);
+	CharacterCard get_card(int id);
 
-	};
-}
+private:
+	vector<BuildCard> buildCards;
+	vector<CharacterCard> characterCards;
+
+};
 

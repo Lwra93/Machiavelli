@@ -110,27 +110,44 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bouwmeester.cpp" />
     <ClCompile Include="BuildCard.cpp" />
     <ClCompile Include="CharacterCard.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="ClientCommand.cpp" />
+    <ClCompile Include="Condottiere.cpp" />
+    <ClCompile Include="Dief.cpp" />
+    <ClCompile Include="Factory.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Koning.cpp" />
+    <ClCompile Include="Koopman.cpp" />
+    <ClCompile Include="Magier.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Moordenaar.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Prediker.cpp" />
     <ClCompile Include="Socket.cpp" />
     <ClCompile Include="throw.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bouwmeester.h" />
     <ClInclude Include="BuildCard.h" />
     <ClInclude Include="CharacterCard.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="ClientCommand.h" />
     <ClInclude Include="ClientInfo.h" />
     <ClInclude Include="CommandHandler.h" />
+    <ClInclude Include="Condottiere.h" />
     <ClInclude Include="config.h" />
+    <ClInclude Include="Dief.h" />
     <ClInclude Include="Factory.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Koning.h" />
+    <ClInclude Include="Koopman.h" />
+    <ClInclude Include="Magier.h" />
+    <ClInclude Include="Moordenaar.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Prediker.h" />
     <ClInclude Include="Socket.h" />
     <ClInclude Include="Sync_queue.h" />
     <ClInclude Include="throw.h" />
