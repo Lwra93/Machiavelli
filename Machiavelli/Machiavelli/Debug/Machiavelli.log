@@ -1,0 +1,5 @@
+﻿  Client.cpp
+d:\bram\documents\avans\2016-2017\blok 14\cpp2\machiavelli\machiavelli\machiavelli\client.h(3): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+d:\bram\documents\avans\2016-2017\blok 14\cpp2\machiavelli\machiavelli\machiavelli\commandhandler.h(2): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  Machiavelli.vcxproj -> D:\Bram\Documents\Avans\2016-2017\Blok 14\CPP2\Machiavelli\Machiavelli\Debug\Machiavelli.exe
+  Machiavelli.vcxproj -> D:\Bram\Documents\Avans\2016-2017\Blok 14\CPP2\Machiavelli\Machiavelli\Debug\Machiavelli.pdb (Partial PDB)

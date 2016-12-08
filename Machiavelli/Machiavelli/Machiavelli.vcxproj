@@ -110,6 +110,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="ClientCommand.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Socket.cpp" />
+    <ClCompile Include="throw.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Client.h" />
+    <ClInclude Include="ClientCommand.h" />
+    <ClInclude Include="ClientInfo.h" />
+    <ClInclude Include="CommandHandler.h" />
+    <ClInclude Include="config.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Socket.h" />
+    <ClInclude Include="Sync_queue.h" />
+    <ClInclude Include="throw.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
