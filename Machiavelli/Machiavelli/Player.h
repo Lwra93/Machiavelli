@@ -18,22 +18,34 @@
 class Player {
 public:
 	Player() {};
-	Player(const std::string& name, const int age) : name{ name }, age{ age } {}
+	Player(const std::string& name, const int age) : name{ name }, age{ age }, gold{ 2 } {}
 
     std::string get_name() const { return name; }
 	int get_age() const { return age; }
 
 	void flush();
-	void add_character(const shared_ptr<CharacterCard> card);
+	void add_character_card(const shared_ptr<CharacterCard> card);
+	void add_building_card(const shared_ptr<BuildCard> card);
+	void remove_building_card(const int id);
 	void add_building(const shared_ptr<BuildCard> card);
+	void remove_building(const int id);
 
-	vector<shared_ptr<CharacterCard>> get_characters() const;
+	vector<shared_ptr<CharacterCard>> get_character_cards() const;
+	vector<shared_ptr<BuildCard>> get_building_cards() const;
+	vector<shared_ptr<BuildCard>> get_buildings() const;
+
+
+	int get_gold() const;
+	void add_gold(const int gold);
 
 private:
     std::string name;
 	int age;
-	vector<shared_ptr<CharacterCard>> characters;
-	vector<shared_ptr<BuildCard>> buildings;
+	int gold;
+	vector<shared_ptr<CharacterCard>> characterCards;
+	vector<shared_ptr<BuildCard>> buildingCards;
+	vector<shared_ptr<BuildCard>> built;
+
 };
 
 #endif /* Player_hpp */

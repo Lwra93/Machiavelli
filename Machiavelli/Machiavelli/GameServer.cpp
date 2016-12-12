@@ -53,6 +53,16 @@ void deregister_client(const shared_ptr<Client> client)
 	
 }
 
+void writeToAll(const std::string line)
+{
+	
+	for(auto client : get_clients())
+	{
+		client->write(line);
+	}
+
+}
+
 GameServer::GameServer()
 {
 }

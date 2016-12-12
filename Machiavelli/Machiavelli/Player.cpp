@@ -11,23 +11,58 @@ using namespace std;
 
 void Player::flush()
 {
-	characters.clear();
-	buildings.clear();
-
+	characterCards.clear();
 }
 
-vector<shared_ptr<CharacterCard>> Player::get_characters() const
+vector<shared_ptr<CharacterCard>> Player::get_character_cards() const
 {
-	return this->characters;
+	return this->characterCards;
 }
 
-void Player::add_character(const shared_ptr<CharacterCard> card)
+vector<shared_ptr<BuildCard>> Player::get_building_cards() const
 {
-	characters.push_back(move(card));
+	return this->buildingCards;
+}
+
+vector<shared_ptr<BuildCard>> Player::get_buildings() const
+{
+	return this->built;
+}
+
+int Player::get_gold() const
+{
+	return this->gold;
+}
+
+void Player::add_gold(const int gold)
+{
+	this->gold += gold;
+}
+
+void Player::add_character_card(const shared_ptr<CharacterCard> card)
+{
+	characterCards.push_back(move(card));
+}
+
+void Player::add_building_card(const shared_ptr<BuildCard> card)
+{
+	buildingCards.push_back(move(card));
 }
 
 void Player::add_building(const shared_ptr<BuildCard> card)
 {
-	buildings.push_back(move(card));
+	built.push_back(move(card));
+}
+
+void Player::remove_building_card(const int id)
+{
+
+	buildingCards.erase(buildingCards.begin() + id);
+
+}
+
+void Player::remove_building(const int id)
+{
+	built.erase(built.begin() + id);
 }
 
