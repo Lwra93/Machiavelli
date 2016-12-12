@@ -93,6 +93,42 @@
     <ClCompile Include="Factory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Werkplaats.cpp">
+      <Filter>Source Files\Cards\Build</Filter>
+    </ClCompile>
+    <ClCompile Include="Universiteit.cpp">
+      <Filter>Source Files\Cards\Build</Filter>
+    </ClCompile>
+    <ClCompile Include="Observatorium.cpp">
+      <Filter>Source Files\Cards\Build</Filter>
+    </ClCompile>
+    <ClCompile Include="Laboratorium.cpp">
+      <Filter>Source Files\Cards\Build</Filter>
+    </ClCompile>
+    <ClCompile Include="Kerkhof.cpp">
+      <Filter>Source Files\Cards\Build</Filter>
+    </ClCompile>
+    <ClCompile Include="Kerker.cpp">
+      <Filter>Source Files\Cards\Build</Filter>
+    </ClCompile>
+    <ClCompile Include="Hof.cpp">
+      <Filter>Source Files\Cards\Build</Filter>
+    </ClCompile>
+    <ClCompile Include="Drakenpoort.cpp">
+      <Filter>Source Files\Cards\Build</Filter>
+    </ClCompile>
+    <ClCompile Include="Bibliotheek.cpp">
+      <Filter>Source Files\Cards\Build</Filter>
+    </ClCompile>
+    <ClCompile Include="PurpleCard.cpp">
+      <Filter>Source Files\Cards\Build</Filter>
+    </ClCompile>
+    <ClCompile Include="School.cpp">
+      <Filter>Source Files\Cards\Build</Filter>
+    </ClCompile>
+    <ClCompile Include="GameServer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClientCommand.h">
@@ -157,6 +193,42 @@
     </ClInclude>
     <ClInclude Include="Condottiere.h">
       <Filter>Header Files\Cards\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Bibliotheek.h">
+      <Filter>Header Files\Cards\Build</Filter>
+    </ClInclude>
+    <ClInclude Include="Drakenpoort.h">
+      <Filter>Header Files\Cards\Build</Filter>
+    </ClInclude>
+    <ClInclude Include="Hof.h">
+      <Filter>Header Files\Cards\Build</Filter>
+    </ClInclude>
+    <ClInclude Include="Kerker.h">
+      <Filter>Header Files\Cards\Build</Filter>
+    </ClInclude>
+    <ClInclude Include="Kerkhof.h">
+      <Filter>Header Files\Cards\Build</Filter>
+    </ClInclude>
+    <ClInclude Include="Laboratorium.h">
+      <Filter>Header Files\Cards\Build</Filter>
+    </ClInclude>
+    <ClInclude Include="Observatorium.h">
+      <Filter>Header Files\Cards\Build</Filter>
+    </ClInclude>
+    <ClInclude Include="School.h">
+      <Filter>Header Files\Cards\Build</Filter>
+    </ClInclude>
+    <ClInclude Include="Universiteit.h">
+      <Filter>Header Files\Cards\Build</Filter>
+    </ClInclude>
+    <ClInclude Include="Werkplaats.h">
+      <Filter>Header Files\Cards\Build</Filter>
+    </ClInclude>
+    <ClInclude Include="PurpleCard.h">
+      <Filter>Header Files\Cards\Build</Filter>
+    </ClInclude>
+    <ClInclude Include="GameServer.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

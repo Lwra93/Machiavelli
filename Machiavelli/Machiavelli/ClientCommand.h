@@ -14,8 +14,6 @@
 #include <memory>
 #include "Client.h"
 
-using namespace client;
-
 class ClientCommand {
 public:
     ClientCommand(const std::string& command_text, std::weak_ptr<Client> client_info)

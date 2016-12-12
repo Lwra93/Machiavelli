@@ -7,7 +7,7 @@ class CharacterCard
 {
 public:
 	CharacterCard(int id, string name) { this->id = id; this->name = name; };
-	virtual void handle();
+	virtual void handle() {};
 
 	const int get_id() const { return this->id; }
 	const string get_name() const  { return this->name; };

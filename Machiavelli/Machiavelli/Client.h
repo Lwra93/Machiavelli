@@ -5,28 +5,25 @@
 
 using namespace std;
 
-namespace client
+void handle_client(Socket socket);
+
+class Client
 {
 
-	void handle(Socket);
+public:
+	Client(Socket);
+	Player& get_player();
+	const Socket& get_socket() const;
 
-	class Client
-	{
+	void hello();
+	const string listen() const;
+	void write(string line) const;
+	void writeInput(string line) const;
+	const char Client::read() const;
+	const string Client::readline() const;
 
-	public:
-		Client(Socket);
-		const Player& get_player() const;
-		const Socket& get_socket() const;
+private:
+	Socket socket;
+	Player player;
 
-		void hello();
-		const string listen() const;
-		void disconnect() const;
-
-
-	private:
-		Socket socket;
-		Player player;
-
-	};
-
-}
+};

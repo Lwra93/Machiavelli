@@ -1,10 +1,16 @@
 #pragma once
-#include "Game.h"
+#include "config.h"
+#include "GameServer.h"
 
 int main(int argc, const char * argv[])
 {
-	game::Game game;
-	game.initialise();
+
+	//thread consumer(commands::consume);
+	GameServer server;
+	ServerSocket socket{ config::port };
+	server.run(move(socket));
+	//consumer.join();
+
 
 }
 

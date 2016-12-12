@@ -1,12 +1,10 @@
 #pragma once
 #include <vector>
-#include "CommandHandler.h"
-#include "Socket.h"
 #include "Client.h"
 #include <memory>
-#include <map>
 #include "BuildCard.h"
 #include "CharacterCard.h"
+#include <random>
 
 using namespace std;
 
@@ -15,14 +13,18 @@ class Game
 
 public:
 	void initialise();
-	void run_server(ServerSocket socket) const;
+	void run() const;
 
-	CharacterCard get_card(string name);
-	CharacterCard get_card(int id);
+	void divide_cards() const;
+	const bool is_valid_id(const vector<shared_ptr<CharacterCard>> cards, int id) const;
+	const int get_card_id (const vector<shared_ptr<CharacterCard>> &cards, int id) const;
+
 
 private:
-	vector<BuildCard> buildCards;
-	vector<CharacterCard> characterCards;
+	vector<shared_ptr<BuildCard>> buildCards;
+	vector<shared_ptr<CharacterCard>> characterCards;
+	vector<shared_ptr<Client>> winners;
+	
 
 };
 

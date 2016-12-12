@@ -110,6 +110,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bibliotheek.cpp" />
     <ClCompile Include="Bouwmeester.cpp" />
     <ClCompile Include="BuildCard.cpp" />
     <ClCompile Include="CharacterCard.cpp" />
@@ -117,19 +118,31 @@
     <ClCompile Include="ClientCommand.cpp" />
     <ClCompile Include="Condottiere.cpp" />
     <ClCompile Include="Dief.cpp" />
+    <ClCompile Include="Drakenpoort.cpp" />
     <ClCompile Include="Factory.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameServer.cpp" />
+    <ClCompile Include="Hof.cpp" />
+    <ClCompile Include="Kerker.cpp" />
+    <ClCompile Include="Kerkhof.cpp" />
     <ClCompile Include="Koning.cpp" />
     <ClCompile Include="Koopman.cpp" />
+    <ClCompile Include="Laboratorium.cpp" />
     <ClCompile Include="Magier.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Moordenaar.cpp" />
+    <ClCompile Include="Observatorium.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Prediker.cpp" />
+    <ClCompile Include="PurpleCard.cpp" />
+    <ClCompile Include="School.cpp" />
     <ClCompile Include="Socket.cpp" />
     <ClCompile Include="throw.cpp" />
+    <ClCompile Include="Universiteit.cpp" />
+    <ClCompile Include="Werkplaats.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bibliotheek.h" />
     <ClInclude Include="Bouwmeester.h" />
     <ClInclude Include="BuildCard.h" />
     <ClInclude Include="CharacterCard.h" />
@@ -140,17 +153,28 @@
     <ClInclude Include="Condottiere.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="Dief.h" />
+    <ClInclude Include="Drakenpoort.h" />
     <ClInclude Include="Factory.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameServer.h" />
+    <ClInclude Include="Hof.h" />
+    <ClInclude Include="Kerker.h" />
+    <ClInclude Include="Kerkhof.h" />
     <ClInclude Include="Koning.h" />
     <ClInclude Include="Koopman.h" />
+    <ClInclude Include="Laboratorium.h" />
     <ClInclude Include="Magier.h" />
     <ClInclude Include="Moordenaar.h" />
+    <ClInclude Include="Observatorium.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Prediker.h" />
+    <ClInclude Include="PurpleCard.h" />
+    <ClInclude Include="School.h" />
     <ClInclude Include="Socket.h" />
     <ClInclude Include="Sync_queue.h" />
     <ClInclude Include="throw.h" />
+    <ClInclude Include="Universiteit.h" />
+    <ClInclude Include="Werkplaats.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Bouwkaarten.csv" />
