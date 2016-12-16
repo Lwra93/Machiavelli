@@ -24,6 +24,11 @@ vector<shared_ptr<BuildCard>> Player::get_building_cards() const
 	return this->buildingCards;
 }
 
+void Player::set_building_cards(const vector<shared_ptr<BuildCard>> cards)
+{
+	this->buildingCards = cards;
+}
+
 vector<shared_ptr<BuildCard>> Player::get_buildings() const
 {
 	return this->built;
@@ -39,9 +44,19 @@ void Player::add_gold(const int gold)
 	this->gold += gold;
 }
 
+const int Player::isKing() const
+{
+	return this->king;
+}
+
 void Player::add_character_card(const shared_ptr<CharacterCard> card)
 {
 	characterCards.push_back(move(card));
+}
+
+void Player::setKing(const int king)
+{
+	this->king = king;
 }
 
 void Player::add_building_card(const shared_ptr<BuildCard> card)

@@ -18,6 +18,8 @@ void Game::run()
 {
 	
 	sort_age();
+	get_clients()[0]->get_player().setKing(1);
+	get_clients()[1]->get_player().setKing(0);
 	random_device dev;
 	default_random_engine dre{ dev() };
 	vector<shared_ptr<BuildCard>> buildcards(buildCards.size());
@@ -26,6 +28,7 @@ void Game::run()
 
 	for(auto client : get_clients())
 	{
+		client->write("");
 		client->write("\r\nStarting the game! " + get_clients()[0]->get_player().get_name() + " may start.\r\n");
 		client->get_player().add_gold(2);
 		client->write("Je hebt 2 goud ontvangen.");
@@ -39,13 +42,14 @@ void Game::run()
 			buildcards.erase(buildcards.begin());
 
 		}
-		
 
 	}
 
 	while(winners.size() < 1)
 	{
-		
+	
+		sort_king();
+	
 		divide_cards();
 		call_characters(buildcards);
 
@@ -57,11 +61,13 @@ void Game::run()
 
 }
 
-void Game::divide_cards() const
+void Game::divide_cards()
 {
 
 	writeToAll("=== Now starting the card division round. ===");
 	
+	discardedCharacters.clear();
+
 	vector<shared_ptr<CharacterCard>> charcards (characterCards.size());
 	random_device dev;
 	default_random_engine dre{ dev() };
@@ -75,7 +81,9 @@ void Game::divide_cards() const
 	other->get_player().flush();
 
 	current->write("The first card of the deck has to be discarded. This card is: " + charcards[0]->get_name());
+	auto card = move(charcards.at(0));
 	charcards.erase(charcards.begin());
+	discardedCharacters.push_back(move(card));
 
 	while(charcards.size() > 0)
 	{
@@ -101,14 +109,14 @@ void Game::divide_cards() const
 
 			current->write("");
 			current->writeInput("Please choose a charactercard id to DISCARD> ");
-			char c = current->read();
-			int id = atoi(&c);
+			std::string c = current->readline();
+			int id = stoi(c);
 
 			while (isdigit(id) != 0 || !is_valid_id(charcards, id))
 			{
 				current->writeInput("Please choose a charactercard id to DISCARD> ");
-				c = current->read();
-				id = atoi(&c);
+				c = current->readline();
+				id = stoi(c);
 			}
 
 			auto cardId = get_card_id(charcards, id);
@@ -116,6 +124,7 @@ void Game::divide_cards() const
 			charcards.erase(charcards.begin() + cardId);
 			current->write("You have discarded " + card->get_name());
 			current->write("");
+			discardedCharacters.push_back(move(card));
 		}
 
 		current->write("Available character cards:");
@@ -125,14 +134,14 @@ void Game::divide_cards() const
 
 		current->write("");
 		current->writeInput("Please choose a charactercard id to hold as your own> ");
-		char c = current->read();
-		int id = atoi(&c);
+		std::string c = current->readline();
+		int id = stoi(c);
 
 		while (isdigit(id) != 0 || !is_valid_id(charcards, id))
 		{
 			current->writeInput("Please choose a charactercard id to hold as your own> ");
-			c = current->read();
-			id = atoi(&c);
+			c = current->readline();
+			id = stoi(c);
 		}
 
 		auto cardId = get_card_id(charcards, id);
@@ -157,10 +166,11 @@ void Game::call_characters(vector<shared_ptr<BuildCard>> &buildings)
 	for (auto characterCard : characterCards)
 	{
 
-		auto playedFirst = false;
-		auto playedSecond = false;
-		auto playedFeature = false;
-
+		if(characterCard->isDead())
+		{
+			writeToAll("The king calls forth the " + characterCard->get_name() + ", but sadly, he has been killed.");
+			continue;
+		}
 		writeToAll("The king calls forth the " + characterCard->get_name() + "!");
 
 		auto current = who_has_card(characterCard);
@@ -169,8 +179,23 @@ void Game::call_characters(vector<shared_ptr<BuildCard>> &buildings)
 			writeToAll("The " + characterCard->get_name() + " is absent. Continuing...");
 			continue;
 		}
-
 		writeToAll(current->get_player().get_name() + " is the " + characterCard->get_name() + "!");
+
+		if(characterCard->isRobbed())
+		{
+			auto card = get_character_by_name("Dief");
+			auto receiver = who_has_card(card);
+
+			auto gold = current->get_player().get_gold();
+			receiver->get_player().add_gold(gold);
+			current->get_player().add_gold(-gold);
+
+			writeToAll("The " + characterCard->get_name() + " was robbed! All " + current->get_player().get_name() + "'s money was transferred to " + receiver->get_player().get_name());
+		}
+
+		auto playedFirst = false;
+		auto playedSecond = false;
+		auto playedFeature = false;
 
 		auto lamb1 = [&]() { play_first(characterCard, buildings, playedFirst, current); };
 		auto lamb2 = [&]() { play_second(characterCard, buildings, playedSecond, current); };
@@ -181,9 +206,12 @@ void Game::call_characters(vector<shared_ptr<BuildCard>> &buildings)
 		functions.emplace(1, lamb2);
 		functions.emplace(2, lamb3);
 
+		print_buildings(current);
+
 		while(!playedFirst || !playedSecond || !playedFeature)
 		{
 
+			current->write("==== Acties ====");
 			bool choices[] = { playedFirst, playedSecond, playedFeature };
 			current->write("Choose one of the following actions: \r\n");
 
@@ -196,36 +224,30 @@ void Game::call_characters(vector<shared_ptr<BuildCard>> &buildings)
 				current->write("[2] - Speel eigenschap");
 
 			current->writeInput("> ");
-			char choice = current->read();
+			std::string choice = current->readline();
 			current->write("");
-			int id = atoi(&choice);
+			int id = stoi(choice);
 
 			while(id < 0 || id > 2)
-			{
+			{ 
 				current->writeInput("> ");
-				choice = current->read();
+				choice = current->readline();
 				current->write("");
-				id = atoi(&choice);
+				id = stoi(choice);
 			}
 
-			auto func = functions.at(id);
-			
-			func();
+			auto performTurn = functions.at(id);
+			performTurn();
 
 			current->write("");
 
 		}
 
-		current->readline();
-
-
-
-
 	}
 
 }
 
-void Game::play_first(shared_ptr<CharacterCard> currentCard, vector<shared_ptr<BuildCard>> &buildings, bool& first, shared_ptr<Client> current) const
+void Game::play_first(shared_ptr<CharacterCard> currentCard, vector<shared_ptr<BuildCard>> buildings, bool& first, shared_ptr<Client> current) const
 {
 	
 	if(first)
@@ -235,17 +257,17 @@ void Game::play_first(shared_ptr<CharacterCard> currentCard, vector<shared_ptr<B
 	}
 	
 	current->writeInput("Wil je goud innen (0), of bouwkaarten trekken (1)> ");
-	char c = current->read();
+	std::string c = current->readline();
 	current->write("");
-	int id = atoi(&c);
+	int id = stoi(c);
 
 	while(id != 0 && id != 1)
 	{
 		
 		current->writeInput("Wil je goud innen (0), of bouwkaarten trekken (1)> ");
-		c = current->read();
+		c = current->readline();
 		current->write("");
-		id = atoi(&c);
+		id = stoi(c);
 		
 	}
 
@@ -275,17 +297,17 @@ void Game::play_first(shared_ptr<CharacterCard> currentCard, vector<shared_ptr<B
 		}
 
 		current->writeInput("> ");
+		std::string c = current->readline();
 		current->write("");
-		char c = current->read();
-		int id = atoi(&c);
+		int id = stoi(c);
 
 		while (id != 0 && id != 1)
 		{
 
 			current->writeInput("> ");
-			c = current->read();
+			c = current->readline();
 			current->write("");
-			id = atoi(&c);
+			id = stoi(c);
 
 		}
 
@@ -297,7 +319,7 @@ void Game::play_first(shared_ptr<CharacterCard> currentCard, vector<shared_ptr<B
 
 }
 
-void Game::play_second(shared_ptr<CharacterCard> currentCard, vector<shared_ptr<BuildCard>> &buildings, bool& second, shared_ptr<Client> current) const
+void Game::play_second(shared_ptr<CharacterCard> currentCard, vector<shared_ptr<BuildCard>> buildings, bool& second, shared_ptr<Client> current)
 {
 
 	if(second)
@@ -306,9 +328,10 @@ void Game::play_second(shared_ptr<CharacterCard> currentCard, vector<shared_ptr<
 		return;
 	}
 	
-	std::string command = "";
+	auto built = 0;
+	auto maxBuilt = (currentCard == get_character_by_name("Bouwmeester") ? 3 : 1);
 
-	while (true)
+	while (built < maxBuilt)
 	{
 		
 		current->write("Kies een gebouw om te bouwen (of typ s de bouwronde te stoppen):");
@@ -321,19 +344,19 @@ void Game::play_second(shared_ptr<CharacterCard> currentCard, vector<shared_ptr<
 		}
 		current->writeInput("Actie> ");
 		current->write("");
-		char c = current->read();
+		std::string c = current->readline();
 
-		if (c == 's')
+		if (c == "s")
 			break;
 
-		int id = atoi(&c);
+		int id = stoi(c);
 		auto chosen = current->get_player().get_building_cards()[id];
 
 		while(chosen == nullptr)
 		{
 			current->writeInput("Actie> ");
-			c = current->read();
-			id = atoi(&c);
+			c = current->readline();
+			id = stoi(c);
 			chosen = current->get_player().get_building_cards()[id];
 		}
 
@@ -348,8 +371,15 @@ void Game::play_second(shared_ptr<CharacterCard> currentCard, vector<shared_ptr<
 			current->get_player().add_gold(-(card->get_value()));
 			current->get_player().add_building(move(card));
 			current->get_player().remove_building_card(move(id));
+			built++;
 		}
 
+	}
+
+	auto b = current->get_player().get_buildings();
+	if(b.size() > 7 && std::find(winners.begin(), winners.end(), current) != winners.end())
+	{
+		winners.push_back(current);
 	}
 
 	second = true;
@@ -358,7 +388,7 @@ void Game::play_second(shared_ptr<CharacterCard> currentCard, vector<shared_ptr<
 
 }
 
-void Game::play_feature(shared_ptr<CharacterCard> currentCard, vector<shared_ptr<BuildCard>> &buildings, bool& feature, shared_ptr<Client> current) const
+void Game::play_feature(shared_ptr<CharacterCard> currentCard, vector<shared_ptr<BuildCard>> buildings, bool& feature, shared_ptr<Client> current) const
 {
 
 	if(feature)
@@ -366,6 +396,28 @@ void Game::play_feature(shared_ptr<CharacterCard> currentCard, vector<shared_ptr
 		current->write("Deze actie is niet beschikbaar!");
 		return;
 	}
+
+	shared_ptr<Client> opponent = (get_clients()[0] == current ? get_clients()[1] : get_clients()[0]);
+	std::vector<shared_ptr<CharacterCard>> list;
+
+	for (auto card : current->get_player().get_character_cards())
+		list.push_back(card);
+
+	for (auto card : opponent->get_player().get_character_cards())
+		list.push_back(card);
+
+	for (auto card : discardedCharacters)
+		list.push_back(card);
+
+	sort(list.begin(), list.end(), [](shared_ptr<CharacterCard> c1, shared_ptr<CharacterCard> c2)
+	{
+		return c1->get_id() < c2->get_id();
+	});
+
+	currentCard->handle(current, opponent, list, buildings);
+
+
+	feature = true;
 	
 	
 
@@ -391,6 +443,34 @@ shared_ptr<Client> Game::who_has_card(const shared_ptr<CharacterCard> card)
 
 }
 
+const shared_ptr<CharacterCard> Game::get_character_by_name(const std::string name) const
+{
+	
+	for (auto c1 : get_clients()[0]->get_player().get_character_cards())
+	{
+		if (c1->get_name() == name)
+			return c1;
+	}
+
+	for (auto c2 : get_clients()[1]->get_player().get_character_cards())
+	{
+		if (c2->get_name() == name)
+			return c2;
+	}
+
+	for(auto c3 : discardedCharacters)
+	{
+		if (c3->get_name() == name)
+			return c3;
+	}
+
+
+	//should not happen
+	return nullptr;
+	
+
+
+}
 
 
 const bool Game::is_valid_id(const vector<shared_ptr<CharacterCard>> cards, int id) const
@@ -407,7 +487,7 @@ const bool Game::is_valid_id(const vector<shared_ptr<CharacterCard>> cards, int 
 
 }
 
-const int Game::get_card_id(const vector<shared_ptr<CharacterCard>> &cards, int id) const
+const int Game::get_card_id(const vector<shared_ptr<CharacterCard>> cards, int id) const
 {
 	
 	auto index = 99;
@@ -422,6 +502,24 @@ const int Game::get_card_id(const vector<shared_ptr<CharacterCard>> &cards, int 
 	}
 
 	return index;
+
+}
+
+void Game::print_buildings(const shared_ptr<Client> current) const
+{
+
+	current->write("");
+
+	for(auto client : get_clients())
+	{
+		
+		current->write("==== " + client->get_player().get_name() + "'s gebouwen ====");
+		for(auto building : client->get_player().get_buildings())
+			current->write("- Naam: " + building->get_name() + ", Waarde: " + std::to_string(building->get_value()) + ", Kleur: " + building->get_color());
+
+	}
+
+	current->write("");
 
 }
 

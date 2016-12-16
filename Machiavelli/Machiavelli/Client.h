@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "Socket.h";
+#include "Socket.h"
 #include "Player.h"
 
 using namespace std;

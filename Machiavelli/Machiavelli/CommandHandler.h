@@ -1,5 +1,5 @@
 #pragma once
-#include "ClientCommand.h";
+#include "ClientCommand.h"
 #include "ClientInfo.h"
 #include "Sync_queue.h"
 #include <iostream>

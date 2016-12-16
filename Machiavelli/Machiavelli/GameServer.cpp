@@ -23,6 +23,15 @@ void sort_age()
 
 }
 
+void sort_king()
+{
+	sort(clients.begin(), clients.end(),
+		[](shared_ptr<Client> c1, shared_ptr<Client> c2)
+	{
+		return c1->get_player().isKing() > c2->get_player().isKing();
+	});
+}
+
 void register_client(const shared_ptr<Client> client)
 {
 
