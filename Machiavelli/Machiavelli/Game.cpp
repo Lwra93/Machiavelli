@@ -55,8 +55,16 @@ void Game::run()
 
 	}
 
-	//Karakterkaarten
-	//
+	vector<int> points;
+	for(auto client : get_clients())
+		points.push_back(calculate_score(client));
+
+	if(points[0] == points[1])
+	{
+		points.clear();
+		for (auto client : get_clients())
+			points.push_back(calculate_no_bonus(client));
+	}
 
 
 }
@@ -466,6 +474,42 @@ const int Game::get_card_id(const vector<shared_ptr<CharacterCard>> cards, int i
 
 	return index;
 
+}
+
+const int Game::calculate_score(const shared_ptr<Client> client) const
+{
+
+	vector<string> colors;
+	auto points = 0;
+
+	for(auto building : client->get_player().get_buildings())
+	{
+		points += building->get_value();
+		if(std::find(colors.begin(), colors.end(), building->get_color()) != colors.end() && building->get_color() != "lila")
+		{
+			colors.push_back(building->get_color());
+		}
+	}
+
+	if (colors.size() == 5)
+		points += 3;
+		
+	if (winners.size() > 0 && winners[0] == client)
+		points += 4;
+	else if (winners.size() > 1 && winners[1] == client)
+		points += 2;
+	
+	return points;
+}
+
+const int Game::calculate_no_bonus(const shared_ptr<Client> client) const
+{
+	auto points = 0;
+
+	for (auto building : client->get_player().get_buildings())
+		points += building->get_value();
+
+	return points;
 }
 
 void Game::print_buildings(const shared_ptr<Client> current) const

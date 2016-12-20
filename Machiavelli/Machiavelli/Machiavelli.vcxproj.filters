@@ -87,9 +87,6 @@
     <ClCompile Include="Moordenaar.cpp">
       <Filter>Source Files\Cards\Character</Filter>
     </ClCompile>
-    <ClCompile Include="Prediker.cpp">
-      <Filter>Source Files\Cards\Character</Filter>
-    </ClCompile>
     <ClCompile Include="Factory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -128,6 +125,9 @@
     </ClCompile>
     <ClCompile Include="GameServer.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Prediker.cpp">
+      <Filter>Source Files\Cards\Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

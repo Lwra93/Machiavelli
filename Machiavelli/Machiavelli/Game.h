@@ -24,6 +24,9 @@ public:
 	const bool is_valid_id(const vector<shared_ptr<CharacterCard>> cards, int id) const;
 	const int get_card_id (const vector<shared_ptr<CharacterCard>> cards, int id) const;
 
+	const int calculate_score(const shared_ptr<Client>) const;
+	const int calculate_no_bonus(const shared_ptr<Client>) const;
+
 	void print_buildings(const shared_ptr<Client> current) const;
 
 	void play_first(shared_ptr<CharacterCard> currentCard, vector<shared_ptr<BuildCard>> buildings, bool& first, shared_ptr<Client> current) const;

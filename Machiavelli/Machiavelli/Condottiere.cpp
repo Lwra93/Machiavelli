@@ -18,11 +18,20 @@ void Condottiere::handle(shared_ptr<Client> current, shared_ptr<Client> opponent
 	current->write("Je hebt " + std::to_string(buildings) + " goud ontvangen!");
 
 	current->write("");
+	auto prediker = false;
 
-	if(opponent->get_player().get_buildings().size() > 7)
+	for(auto card : opponent->get_player().get_character_cards())
+	{
+		if (card->get_name() == "Prediker")
+			prediker = true;
+	}
+
+	if (opponent->get_player().get_buildings().size() > 7)
 	{
 		current->write(opponent->get_player().get_name() + " heeft al " + std::to_string(opponent->get_player().get_buildings().size()) + " gebouwen. Je mag niks meer verwijderen!");
 	}
+	else if (prediker)
+		current->write(opponent->get_player().get_name() + " is de Prediker! Je kan zijn/haar gebouwen niet verwoesten.");
 	else
 	{
 		current->write("Welk gebouw van " + opponent->get_player().get_name() + " wil je verwijderen:");
