@@ -56,11 +56,9 @@ void Client::hello()
 
 	this->socket.write("Welcome to Server 1.0! To quit, type 'quit'.\r\n");
 	this->socket.write("What's your name?\r\n");
-	this->socket.write("Machiavelli> ");
 	auto name{ this->readline() };
 
 	this->socket.write("What's your age?\r\n");
-	this->socket.write("Machiavelli> ");
 	auto age = -1;
 
 	while(age < 0)
@@ -71,7 +69,7 @@ void Client::hello()
 	Player player { name, age };
 	this->player = player;
 
-	this->socket << "Welcome, " << player.get_name() << ", have fun playing our game!\r\n Machiavelli> ";
+	this->socket << "Welcome, " << player.get_name() << ", have fun playing our game!\r\n";
 
 }
 

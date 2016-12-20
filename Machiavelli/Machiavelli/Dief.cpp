@@ -14,16 +14,10 @@ void Dief::handle(shared_ptr<Client> current, shared_ptr<Client> opponent, vecto
 	}
 
 	auto exists = false;
-	std::string c;
-	int id = -1;
+	auto id = current->readnumber();
 
 	while (get_character_by_id(characters, id) == nullptr)
-	{
-		current->writeInput("> ");
-		c = current->readline();
-		id = stoi(c);
-		current->write("");
-	}
+		id = current->readnumber();
 
 	auto character = get_character_by_id(characters, id);
 	character->rob();

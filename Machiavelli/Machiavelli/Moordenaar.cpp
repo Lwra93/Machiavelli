@@ -16,20 +16,15 @@ void Moordenaar::handle(shared_ptr<Client> current, shared_ptr<Client> opponent,
 	
 	
 	auto exists = false;
-	string c;
-	int id = -1;
+	auto id = current->readnumber();
 
 	while(get_character_by_id(characters,id) == nullptr)
-	{
-		current->writeInput("> ");
-		c = current->readline();
-		id = stoi(c);
-		current->write("");
-	}
+		id = current->readnumber();
 
 	auto character = get_character_by_id(characters, id);
 	character->kill();
 	current->write(character->get_name() + " was killed!");
+
 }
 
 const shared_ptr<CharacterCard> Moordenaar::get_character_by_id(const vector<shared_ptr<CharacterCard>> cards, const int id) const

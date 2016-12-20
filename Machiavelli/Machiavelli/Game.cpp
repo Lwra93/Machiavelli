@@ -108,16 +108,11 @@ void Game::divide_cards()
 				current->write("- (" + std::to_string(card->get_id()) + ") " + card->get_name());
 
 			current->write("");
-			current->writeInput("Please choose a charactercard id to DISCARD> ");
-			std::string c = current->readline();
-			int id = stoi(c);
+			current->writeInput("Please choose a charactercard id to DISCARD");
+			auto id = current->readnumber();
 
-			while (isdigit(id) != 0 || !is_valid_id(charcards, id))
-			{
-				current->writeInput("Please choose a charactercard id to DISCARD> ");
-				c = current->readline();
-				id = stoi(c);
-			}
+			while (!is_valid_id(charcards, id))
+				id = current->readnumber();
 
 			auto cardId = get_card_id(charcards, id);
 			auto card = move(charcards.at(cardId));
@@ -133,23 +128,17 @@ void Game::divide_cards()
 			current->write("- (" + std::to_string(card->get_id()) + ") " + card->get_name());
 
 		current->write("");
-		current->writeInput("Please choose a charactercard id to hold as your own> ");
-		std::string c = current->readline();
-		int id = stoi(c);
+		current->writeInput("Please choose a charactercard id to hold as your own");
+		auto id = current->readnumber();
 
-		while (isdigit(id) != 0 || !is_valid_id(charcards, id))
-		{
-			current->writeInput("Please choose a charactercard id to hold as your own> ");
-			c = current->readline();
-			id = stoi(c);
-		}
+		while (!is_valid_id(charcards, id))
+			id = current->readnumber();
 
 		auto cardId = get_card_id(charcards, id);
 		auto card = move(charcards.at(cardId));
 		charcards.erase(charcards.begin() + cardId);
 
 		current->get_player().add_character_card(move(card));
-		
 		
 		current = (current == get_clients()[0] ? get_clients()[1] : get_clients()[0]);
 		other = (other == get_clients()[0] ? get_clients()[1] : get_clients()[0]);
@@ -223,18 +212,10 @@ void Game::call_characters(vector<shared_ptr<BuildCard>> &buildings)
 			if (!playedFeature)
 				current->write("[2] - Speel eigenschap");
 
-			current->writeInput("> ");
-			std::string choice = current->readline();
-			current->write("");
-			int id = stoi(choice);
+			auto id = current->readnumber();
 
 			while(id < 0 || id > 2)
-			{ 
-				current->writeInput("> ");
-				choice = current->readline();
-				current->write("");
-				id = stoi(choice);
-			}
+				current->readnumber();
 
 			auto performTurn = functions.at(id);
 			performTurn();
@@ -256,20 +237,11 @@ void Game::play_first(shared_ptr<CharacterCard> currentCard, vector<shared_ptr<B
 		return;
 	}
 	
-	current->writeInput("Wil je goud innen (0), of bouwkaarten trekken (1)> ");
-	std::string c = current->readline();
-	current->write("");
-	int id = stoi(c);
+	current->writeInput("Wil je goud innen (0), of bouwkaarten trekken (1)");
+	auto id = current->readnumber();
 
 	while(id != 0 && id != 1)
-	{
-		
-		current->writeInput("Wil je goud innen (0), of bouwkaarten trekken (1)> ");
-		c = current->readline();
-		current->write("");
-		id = stoi(c);
-		
-	}
+		id = current->readnumber();
 
 	if(id == 0)
 	{
@@ -296,20 +268,10 @@ void Game::play_first(shared_ptr<CharacterCard> currentCard, vector<shared_ptr<B
 			current->write("[" + std::to_string(i) + "] - " + drawn.at(i)->get_name() + " | " + std::to_string(drawn.at(i)->get_value()) + " | " + drawn.at(i)->get_color());
 		}
 
-		current->writeInput("> ");
-		std::string c = current->readline();
-		current->write("");
-		int id = stoi(c);
+		auto id = current->readnumber();
 
 		while (id != 0 && id != 1)
-		{
-
-			current->writeInput("> ");
-			c = current->readline();
-			current->write("");
-			id = stoi(c);
-
-		}
+			current->readnumber();
 
 		current->write("Je hebt " + drawn.at(id)->get_name() + " ontvangen!");
 		first = true;
@@ -342,36 +304,37 @@ void Game::play_second(shared_ptr<CharacterCard> currentCard, vector<shared_ptr<
 			auto card = current->get_player().get_building_cards()[i];
 			current->write("[" + std::to_string(i) + "] - " + card->get_name() + " | " + std::to_string(card->get_value()) + " | " + card->get_color());
 		}
-		current->writeInput("Actie> ");
-		current->write("");
+
 		std::string c = current->readline();
 
 		if (c == "s")
 			break;
 
-		int id = stoi(c);
-		auto chosen = current->get_player().get_building_cards()[id];
-
-		while(chosen == nullptr)
+		try
 		{
-			current->writeInput("Actie> ");
-			c = current->readline();
-			id = stoi(c);
-			chosen = current->get_player().get_building_cards()[id];
-		}
-
-		if(chosen->get_value() > current->get_player().get_gold())
+			auto choice = stoi(c);
+			auto chosen = current->get_player().get_building_cards()[choice];
+			if (chosen == nullptr)
+				current->write("Dit gebouw bestaat niet!");
+			else
+			{
+				if (chosen->get_value() > current->get_player().get_gold())
+				{
+					current->write("Dit gebouw is te duur om te bouwen! Je komt " + std::to_string(chosen->get_value() - current->get_player().get_gold()) + " goud te kort.");
+				}
+				else
+				{
+					current->write("Je hebt " + std::to_string(chosen->get_value()) + " betaald en " + chosen->get_name() + " gebouwd!");
+					auto card = move(chosen);
+					current->get_player().add_gold(-(card->get_value()));
+					current->get_player().add_building(move(card));
+					current->get_player().remove_building_card(move(choice));
+					built++;
+				}
+			}
+		} catch(...)
 		{
-			current->write("Dit gebouw is te duur om te bouwen! Je komt " + std::to_string(chosen->get_value() - current->get_player().get_gold()) + " goud te kort.");
-		}
-		else
-		{
-			current->write("Je hebt " + std::to_string(chosen->get_value()) + " betaald en " + chosen->get_name() + " gebouwd!");
-			auto card = move(chosen);
-			current->get_player().add_gold(-(card->get_value()));
-			current->get_player().add_building(move(card));
-			current->get_player().remove_building_card(move(id));
-			built++;
+			current->write("Dit gebouw bestaat niet!");
 		}
 
 	}
