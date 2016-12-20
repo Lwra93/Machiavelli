@@ -16,14 +16,14 @@ void Moordenaar::handle(shared_ptr<Client> current, shared_ptr<Client> opponent,
 	
 	
 	auto exists = false;
-	char c;
+	string c;
 	int id = -1;
 
 	while(get_character_by_id(characters,id) == nullptr)
 	{
 		current->writeInput("> ");
-		c = current->read();
-		id = atoi(&c);
+		c = current->readline();
+		id = stoi(c);
 		current->write("");
 	}
 

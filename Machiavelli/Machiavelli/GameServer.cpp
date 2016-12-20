@@ -50,14 +50,17 @@ void register_client(const shared_ptr<Client> client)
 
 void deregister_client(const shared_ptr<Client> client)
 {
-
+	
 	client->write("Thank you for playing Machiavelli. We will await your return!");
+	client->close();
 	clients.erase(std::remove(clients.begin(), clients.end(), client), clients.end());
 
 	if (clients.size() > 0)
 	{
 		auto c = clients[0];
-		c->write("The other connection was lost. Force exit game.");
+		c->write("The other connection was lost. Force exit game. You win!");
+		c->close();
+		clients.clear();
 	}
 	
 }

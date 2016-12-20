@@ -2,6 +2,7 @@
 #include "Socket.h"
 #include "Client.h"
 #include <vector>
+#include "Game.h"
 
 using namespace std;
 
@@ -18,4 +19,5 @@ public:
 	GameServer();
 	~GameServer();
 	void run(ServerSocket socket) const;
+	
 };

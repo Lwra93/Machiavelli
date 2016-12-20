@@ -40,11 +40,11 @@ void Condottiere::handle(shared_ptr<Client> current, shared_ptr<Client> opponent
 			{
 
 				current->writeInput("> ");
-				char c = current->read();
-				if (c == 's')
+				string c = current->readline();
+				if (c == "s")
 					break;
 
-				chosen = atoi(&c);
+				chosen = stoi(c);
 
 			}
 

@@ -16,22 +16,22 @@ void handle_client(Socket socket)
 			client->hello();
 			register_client(client);
 
-			while (true)
-			{
-				/*auto client_command{ client->listen() };
+			//while (true)
+			//{
+			//	/*auto client_command{ client->listen() };
 
-				if (client_command == "quit")
-					break;
+			//	if (client_command == "quit")
+			//		break;
 
-				ClientCommand cmd{ client_command, client };
-				commands::add(cmd);*/
-			}
+			//	ClientCommand cmd{ client_command, client };
+			//	commands::add(cmd);*/
+			//}
 
-			deregister_client(client);
+			//deregister_client(client);
 
 		}
-		catch (...) {
-			cerr << "handle_client crashed\n";
+		catch (exception en) {
+			cerr << "handle_client crashed\n" << en.what();
 		}
 
 	}
@@ -57,11 +57,16 @@ void Client::hello()
 	this->socket.write("Welcome to Server 1.0! To quit, type 'quit'.\r\n");
 	this->socket.write("What's your name?\r\n");
 	this->socket.write("Machiavelli> ");
-	auto name{ this->socket.readline() };
+	auto name{ this->readline() };
 
 	this->socket.write("What's your age?\r\n");
 	this->socket.write("Machiavelli> ");
-	auto age{ stoi(this->socket.readline()) };
+	auto age = -1;
+
+	while(age < 0)
+	{
+		age = this->readnumber();
+	}
 
 	Player player { name, age };
 	this->player = player;
@@ -104,14 +109,32 @@ void Client::writeInput(string line) const
 	this->socket.write(line);
 }
 
-const char Client::read() const
+const string Client::readline() 
 {
-	return this->socket.read();
+	this->socket.write("> ");
+	auto line = this->socket.readline();
+
+	if (line == "quit")
+		deregister_client(shared_from_this());
+
+	return line;
 }
 
-const string Client::readline() const
+const int Client::readnumber()
 {
-	return this->socket.readline();
+	auto line = this->readline();
+	auto nr = -1;
+
+	try
+	{
+		nr = stoi(line);
+	}
+	catch(...)
+	{
+		
+	}
+
+	return nr;
 }
 
 Player& Client::get_player()
@@ -122,4 +145,9 @@ Player& Client::get_player()
 const Socket& Client::get_socket() const
 {
 	return this->socket;
+}
+
+void Client::close()
+{
+	this->socket.close();
 }

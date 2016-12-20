@@ -7,7 +7,7 @@ using namespace std;
 
 void handle_client(Socket socket);
 
-class Client
+class Client : public std::enable_shared_from_this<Client>
 {
 
 public:
@@ -19,8 +19,10 @@ public:
 	const string listen() const;
 	void write(string line) const;
 	void writeInput(string line) const;
-	const char Client::read() const;
-	const string Client::readline() const;
+	const string Client::readline();
+	const int Client::readnumber();
+
+	void close();
 
 private:
 	Socket socket;
