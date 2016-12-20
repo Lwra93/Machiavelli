@@ -34,11 +34,39 @@ void Magier::handle(shared_ptr<Client> current, shared_ptr<Client> opponent, vec
 	}
 	else
 	{
-		
-		auto amountOfCards = current->get_player().get_building_cards().size();
-		current->get_player().get_building_cards().clear();
+		auto done = false;
+		auto removedCards = 0;
 
-		for(auto i = 0; i < amountOfCards; i++)
+		while(done)
+		{
+			current->write("Deze kaarten heb je nu in bezit, welke wil je inleveren? (als je klaar bent gebruik s om te stoppen)");
+			for (auto i = 0; i < current->get_player().get_building_cards().size(); i++)
+			{
+				current->write("[" + to_string(i) + "] - " + current->get_player().get_building_cards().at(i)->get_name());
+			}
+
+			string input = current->readline();
+			int choice = -1;
+
+			if(input == "s")
+				done = true;
+			else
+				try
+				{
+					choice = stoi(input);
+					removedCards++;
+					current->get_player().get_building_cards().erase(current->get_player().get_building_cards().begin()+choice);
+				}
+				catch(...)
+				{
+				
+				}
+
+
+		}
+		
+
+		for(auto i = 0; i < removedCards; i++)
 		{
 			
 			auto card = move(availableCards.at(0));
@@ -47,7 +75,7 @@ void Magier::handle(shared_ptr<Client> current, shared_ptr<Client> opponent, vec
 
 		}
 
-		current->write("Je hebt je eigen bouwkaarten weggegooit en je hebt " + std::to_string(amountOfCards) + " kaarten bijgetrokken!");
+		current->write("Je hebt " + std::to_string(removedCards) + " bouwkaarten weggegooit en je hebt " + std::to_string(removedCards) + " kaarten bijgetrokken!");
 
 	}
 
