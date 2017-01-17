@@ -6,6 +6,7 @@ void Moordenaar::handle(shared_ptr<Client> current, shared_ptr<Client> opponent,
 {
 
 	current->write("");
+	current->write("===== Acties: Moordenaar =====");
 	current->write("Wie wil je vermoorden: ");
 
 	for(auto card : characters)

@@ -1,6 +1,14 @@
 #pragma once
 #include "CharacterCard.h"
 
+void CharacterCard::reset()
+{
+
+	this->dead = false;
+	this->robbed = false;
+
+}
+
 void CharacterCard::kill()
 {
 	this->dead = true;

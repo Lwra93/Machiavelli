@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Commands">
-      <UniqueIdentifier>{d31d37f1-609d-48f7-9062-8da2ada5231b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Commands">
-      <UniqueIdentifier>{01c0dd0a-a368-4466-a9fd-fac771504029}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Cards">
       <UniqueIdentifier>{d7a5b726-a24e-471a-8253-5956321b93fe}</UniqueIdentifier>
     </Filter>
@@ -50,9 +44,6 @@
     </ClCompile>
     <ClCompile Include="throw.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ClientCommand.cpp">
-      <Filter>Source Files\Commands</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
@@ -154,9 +145,6 @@
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandHandler.h">
-      <Filter>Header Files\Commands</Filter>
     </ClInclude>
     <ClInclude Include="Client.h">
       <Filter>Header Files</Filter>

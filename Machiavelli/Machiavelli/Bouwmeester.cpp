@@ -3,6 +3,9 @@
 
 void Bouwmeester::handle(shared_ptr<Client> current, shared_ptr<Client> opponent, vector<shared_ptr<CharacterCard>> list, vector<shared_ptr<BuildCard>> availableCards)
 {
+
+	current->write("");
+	current->write("===== Acties: Bouwmeester =====");
 	
 	for(auto i = 0; i < 2; i++)
 	{

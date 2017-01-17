@@ -5,6 +5,14 @@
 #include <algorithm>
 
 
+Game::~Game()
+{
+
+	characterCards.clear();
+	buildCards.clear();
+
+}
+
 void Game::initialise()
 {
 
@@ -29,7 +37,7 @@ void Game::run()
 	for(auto client : get_clients())
 	{
 		client->write("");
-		client->write("\r\nStarting the game! " + get_clients()[0]->get_player().get_name() + " may start.\r\n");
+		client->write("\r\We beginnen het spel! " + get_clients()[0]->get_player().get_name() + " mag beginnen.\r\n");
 		client->get_player().add_gold(2);
 		client->write("Je hebt 2 goud ontvangen.");
 
@@ -66,15 +74,27 @@ void Game::run()
 			points.push_back(calculate_no_bonus(client));
 	}
 
+	int id = (points[0] > points[1] ? 0 : 1);
+	writeToAll("");
+	writeToAll("Het spel is afgelopen! " + get_clients()[id]->get_player().get_name() + " heeft gewonnen!");
+
+	//WINNAAR!
+
+	
+
 
 }
 
 void Game::divide_cards()
 {
 
-	writeToAll("=== Now starting the card division round. ===");
+	writeToAll("");
+	writeToAll("=== Nu begint de karakterronde. ===");
 	
 	discardedCharacters.clear();
+
+	for (auto card : characterCards)
+		card->reset();
 
 	vector<shared_ptr<CharacterCard>> charcards (characterCards.size());
 	random_device dev;
@@ -88,7 +108,10 @@ void Game::divide_cards()
 	current->get_player().flush();
 	other->get_player().flush();
 
-	current->write("The first card of the deck has to be discarded. This card is: " + charcards[0]->get_name());
+	current->write("");
+	current->write("De eerste kaart in de stapel wordt weggegooid. Deze kaart is: " + charcards[0]->get_name());
+	current->write("");
+
 	auto card = move(charcards.at(0));
 	charcards.erase(charcards.begin());
 	discardedCharacters.push_back(move(card));
@@ -97,10 +120,11 @@ void Game::divide_cards()
 	{
 		
 		other->write("");
-		other->write(current->get_player().get_name() + "'s turn. Please wait for his/her decision.");
+		other->write(current->get_player().get_name() + "'s beurt. Wacht alstublieft op zijn/haar beurt.");
 		string cardNames;
 		
-		current->write("Your cards: ");
+		current->write("===== Kies een karakterkaart =====");
+		current->write("Je kaarten: ");
 		for(auto card : current->get_player().get_character_cards())
 		{
 			current->write("- " + card->get_name());
@@ -110,13 +134,13 @@ void Game::divide_cards()
 
 		if(charcards.size() < 7)
 		{
-			current->write("Available character cards:");
+			current->write("Beschikbare karakterkaarten:");
 
 			for (auto card : charcards)
 				current->write("- (" + std::to_string(card->get_id()) + ") " + card->get_name());
 
 			current->write("");
-			current->writeInput("Please choose a charactercard id to DISCARD");
+			current->writeInput("Kies een karakterkaart om te VERWIJDEREN:");
 			auto id = current->readnumber();
 
 			while (!is_valid_id(charcards, id))
@@ -125,18 +149,18 @@ void Game::divide_cards()
 			auto cardId = get_card_id(charcards, id);
 			auto card = move(charcards.at(cardId));
 			charcards.erase(charcards.begin() + cardId);
-			current->write("You have discarded " + card->get_name());
+			current->write("Je hebt " + card->get_name() + " verwijderd.");
 			current->write("");
 			discardedCharacters.push_back(move(card));
 		}
 
-		current->write("Available character cards:");
+		current->write("Beschikbare karakterkaarten:");
 
 		for (auto card : charcards)
 			current->write("- (" + std::to_string(card->get_id()) + ") " + card->get_name());
 
 		current->write("");
-		current->writeInput("Please choose a charactercard id to hold as your own");
+		current->writeInput("Kies een karakterkaart om zelf te houden:");
 		auto id = current->readnumber();
 
 		while (!is_valid_id(charcards, id))
@@ -158,25 +182,26 @@ void Game::divide_cards()
 void Game::call_characters(vector<shared_ptr<BuildCard>> &buildings)
 {
 	
-	writeToAll("=== Now starting the character round. ===");
+	writeToAll("");
+	writeToAll("=== Nu begint de actieronde. ===");
 
 	for (auto characterCard : characterCards)
 	{
 
 		if(characterCard->isDead())
 		{
-			writeToAll("The king calls forth the " + characterCard->get_name() + ", but sadly, he has been killed.");
+			writeToAll("De koning roept de " + characterCard->get_name() + " op, maar hij/zij is helaas vermoord.");
 			continue;
 		}
-		writeToAll("The king calls forth the " + characterCard->get_name() + "!");
+		writeToAll("De koning roept de " + characterCard->get_name() + " op!");
 
 		auto current = who_has_card(characterCard);
 		if (current == nullptr)
 		{
-			writeToAll("The " + characterCard->get_name() + " is absent. Continuing...");
+			writeToAll("De " + characterCard->get_name() + " is absent. We gaan door...");
 			continue;
 		}
-		writeToAll(current->get_player().get_name() + " is the " + characterCard->get_name() + "!");
+		writeToAll(current->get_player().get_name() + " is de " + characterCard->get_name() + "!");
 
 		if(characterCard->isRobbed())
 		{
@@ -187,7 +212,7 @@ void Game::call_characters(vector<shared_ptr<BuildCard>> &buildings)
 			receiver->get_player().add_gold(gold);
 			current->get_player().add_gold(-gold);
 
-			writeToAll("The " + characterCard->get_name() + " was robbed! All " + current->get_player().get_name() + "'s money was transferred to " + receiver->get_player().get_name());
+			writeToAll("De " + characterCard->get_name() + " was bestolen! Al " + current->get_player().get_name() + "'s geld gaat naar " + receiver->get_player().get_name());
 		}
 
 		auto playedFirst = false;
@@ -210,7 +235,7 @@ void Game::call_characters(vector<shared_ptr<BuildCard>> &buildings)
 
 			current->write("==== Acties ====");
 			bool choices[] = { playedFirst, playedSecond, playedFeature };
-			current->write("Choose one of the following actions: \r\n");
+			current->write("Kies een van de volgende acties: \r\n");
 
 			if(!playedFirst)
 				current->write("[0] - Trek bouwkaart / Krijg goud");
@@ -223,7 +248,7 @@ void Game::call_characters(vector<shared_ptr<BuildCard>> &buildings)
 			auto id = current->readnumber();
 
 			while(id < 0 || id > 2)
-				current->readnumber();
+				id = current->readnumber();
 
 			auto performTurn = functions.at(id);
 			performTurn();
@@ -279,7 +304,7 @@ void Game::play_first(shared_ptr<CharacterCard> currentCard, vector<shared_ptr<B
 		auto id = current->readnumber();
 
 		while (id != 0 && id != 1)
-			current->readnumber();
+			id = current->readnumber();
 
 		current->write("Je hebt " + drawn.at(id)->get_name() + " ontvangen!");
 		first = true;
@@ -321,6 +346,13 @@ void Game::play_second(shared_ptr<CharacterCard> currentCard, vector<shared_ptr<
 		try
 		{
 			auto choice = stoi(c);
+
+			if(choice < 0 || choice >= current->get_player().get_building_cards().size())
+			{
+				current->write("Dit gebouw bestaat niet!");
+				continue;
+			}
+
 			auto chosen = current->get_player().get_building_cards()[choice];
 			if (chosen == nullptr)
 				current->write("Dit gebouw bestaat niet!");
@@ -348,7 +380,7 @@ void Game::play_second(shared_ptr<CharacterCard> currentCard, vector<shared_ptr<
 	}
 
 	auto b = current->get_player().get_buildings();
-	if(b.size() > 7 && std::find(winners.begin(), winners.end(), current) != winners.end())
+	if(b.size() > 7 && std::find(winners.begin(), winners.end(), current) == winners.end())
 	{
 		winners.push_back(current);
 	}

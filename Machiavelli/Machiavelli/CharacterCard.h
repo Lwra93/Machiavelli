@@ -16,6 +16,8 @@ public:
 	const int get_id() const { return this->id; }
 	const string get_name() const  { return this->name; };
 
+	void reset();
+
 	void kill();
 	const bool isDead() const;
 

@@ -1,44 +1,6 @@
-﻿  Werkplaats.cpp
-  Universiteit.cpp
-  throw.cpp
-  Socket.cpp
-d:\bram\documents\avans\2016-2017\blok 14\cpp2\machiavelli\machiavelli\machiavelli\socket.cpp(71): warning C4068: unknown pragma
-d:\bram\documents\avans\2016-2017\blok 14\cpp2\machiavelli\machiavelli\machiavelli\socket.cpp(217): warning C4068: unknown pragma
-d:\bram\documents\avans\2016-2017\blok 14\cpp2\machiavelli\machiavelli\machiavelli\socket.cpp(221): warning C4244: 'argument': conversion from 'SOCKET' to 'int', possible loss of data
-d:\bram\documents\avans\2016-2017\blok 14\cpp2\machiavelli\machiavelli\machiavelli\socket.cpp(238): warning C4244: 'argument': conversion from 'SOCKET' to 'int', possible loss of data
-d:\bram\documents\avans\2016-2017\blok 14\cpp2\machiavelli\machiavelli\machiavelli\socket.cpp(244): warning C4068: unknown pragma
-d:\bram\documents\avans\2016-2017\blok 14\cpp2\machiavelli\machiavelli\machiavelli\socket.cpp(269): warning C4244: 'argument': conversion from 'SOCKET' to 'int', possible loss of data
-d:\bram\documents\avans\2016-2017\blok 14\cpp2\machiavelli\machiavelli\machiavelli\socket.cpp(272): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-  School.cpp
-  PurpleCard.cpp
-  Prediker.cpp
-  Player.cpp
-d:\bram\documents\avans\2016-2017\blok 14\cpp2\machiavelli\machiavelli\machiavelli\player.cpp(59): warning C4800: 'const int': forcing value to bool 'true' or 'false' (performance warning)
-  Observatorium.cpp
-  Moordenaar.cpp
-  main.cpp
-  Magier.cpp
-  Laboratorium.cpp
-  Koopman.cpp
-  Koning.cpp
-  Kerkhof.cpp
-  Kerker.cpp
-  Hof.cpp
-  GameServer.cpp
+﻿  GameServer.cpp
   Game.cpp
+d:\bram\documents\avans\2016-2017\blok 14\cpp2\machiavelli\machiavelli\machiavelli\game.cpp(40): warning C4129: 'W': unrecognized character escape sequence
   Generating Code...
-  Compiling...
-  Factory.cpp
-  Drakenpoort.cpp
-  Dief.cpp
-  Condottiere.cpp
-  ClientCommand.cpp
-  Client.cpp
-  CharacterCard.cpp
-  BuildCard.cpp
-  Bouwmeester.cpp
-  Bibliotheek.cpp
-  Generating Code...
-  LINK : D:\Bram\Documents\Avans\2016-2017\Blok 14\CPP2\Machiavelli\Machiavelli\x64\Debug\Machiavelli.exe not found or not built by the last incremental link; performing full link
   Machiavelli.vcxproj -> D:\Bram\Documents\Avans\2016-2017\Blok 14\CPP2\Machiavelli\Machiavelli\x64\Debug\Machiavelli.exe
   Machiavelli.vcxproj -> D:\Bram\Documents\Avans\2016-2017\Blok 14\CPP2\Machiavelli\Machiavelli\x64\Debug\Machiavelli.pdb (Partial PDB)

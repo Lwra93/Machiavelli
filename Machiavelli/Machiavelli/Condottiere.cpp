@@ -4,6 +4,9 @@
 void Condottiere::handle(shared_ptr<Client> current, shared_ptr<Client> opponent, vector<shared_ptr<CharacterCard>> list, vector<shared_ptr<BuildCard>> availableCards)
 {
 
+	current->write("");
+	current->write("===== Acties: Condottiere =====");
+
 	auto buildings = 0;
 
 	for (auto building : current->get_player().get_buildings())
@@ -15,7 +18,7 @@ void Condottiere::handle(shared_ptr<Client> current, shared_ptr<Client> opponent
 		}
 	}
 
-	current->write("Je hebt " + std::to_string(buildings) + " goud ontvangen!");
+	current->write("Je hebt " + std::to_string(buildings) + " goud ontvangen voor elk rood gebouw!");
 
 	current->write("");
 	auto prediker = false;
@@ -34,7 +37,7 @@ void Condottiere::handle(shared_ptr<Client> current, shared_ptr<Client> opponent
 		current->write(opponent->get_player().get_name() + " is de Prediker! Je kan zijn/haar gebouwen niet verwoesten.");
 	else
 	{
-		current->write("Welk gebouw van " + opponent->get_player().get_name() + " wil je verwijderen:");
+		current->write("Welk gebouw van " + opponent->get_player().get_name() + " wil je verwijderen (tot een maximale waarde van " + std::to_string(current->get_player().get_gold()) + "):");
 
 		for (int i = 0; i < opponent->get_player().get_buildings().size(); i++)
 		{
@@ -48,31 +51,40 @@ void Condottiere::handle(shared_ptr<Client> current, shared_ptr<Client> opponent
 			while (chosen < 0 || chosen >= opponent->get_player().get_buildings().size())
 			{
 
-				current->writeInput("> ");
 				string c = current->readline();
 				if (c == "s")
 					break;
 
-				chosen = stoi(c);
+				try
+				{
+					chosen = stoi(c);
+				}
+				catch (...)
+				{
+					chosen = -1;
+				}
 
 			}
 
-			if (chosen < 0 || chosen >= opponent->get_player().get_buildings().size())
+			if (chosen == -1)
+				break;
+
+			auto cost = opponent->get_player().get_buildings().at(chosen)->get_value() - 1;
+			if (current->get_player().get_gold() >= cost)
 			{
-				auto cost = opponent->get_player().get_buildings().at(chosen)->get_value() - 1;
-				if (current->get_player().get_gold() >= cost)
-				{
-					current->get_player().add_gold(-cost);
-					current->write("Je hebt " + std::to_string(cost) + " betaald en de " + opponent->get_player().get_buildings().at(chosen)->get_name() + " verwoest!");
-					opponent->get_player().get_buildings().erase(opponent->get_player().get_buildings().begin() + chosen);
-					break;
-				}
-				else
-				{
-					current->write("Je kunt dit niet betalen!");
-				}
-
+				current->get_player().add_gold(-cost);
+				current->write("Je hebt " + std::to_string(cost) + " betaald en de " + opponent->get_player().get_buildings().at(chosen)->get_name() + " verwoest!");
+				opponent->write(current->get_player().get_name() + " heeft " + opponent->get_player().get_buildings().at(chosen)->get_name() + " verwoest!");
+				opponent->get_player().remove_building(chosen);
+				break;
 			}
+			else
+			{
+				current->write("Je kunt dit niet betalen! Je komt " + std::to_string(cost - current->get_player().get_gold()) + " geld te kort!");
+			}
+
+			
+
 		}
 
 		

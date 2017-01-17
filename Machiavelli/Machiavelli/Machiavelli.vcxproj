@@ -115,7 +115,6 @@
     <ClCompile Include="BuildCard.cpp" />
     <ClCompile Include="CharacterCard.cpp" />
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="ClientCommand.cpp" />
     <ClCompile Include="Condottiere.cpp" />
     <ClCompile Include="Dief.cpp" />
     <ClCompile Include="Drakenpoort.cpp" />
@@ -149,7 +148,6 @@
     <ClInclude Include="Client.h" />
     <ClInclude Include="ClientCommand.h" />
     <ClInclude Include="ClientInfo.h" />
-    <ClInclude Include="CommandHandler.h" />
     <ClInclude Include="Condottiere.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="Dief.h" />

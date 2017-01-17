@@ -4,6 +4,9 @@
 void Koning::handle(shared_ptr<Client> current, shared_ptr<Client> opponent, vector<shared_ptr<CharacterCard>> list, vector<shared_ptr<BuildCard>> availableCards)
 {
 
+	current->write("");
+	current->write("===== Acties: Koning =====");
+
 	auto buildings = 0;
 
 	for(auto building : current->get_player().get_buildings())
@@ -18,7 +21,7 @@ void Koning::handle(shared_ptr<Client> current, shared_ptr<Client> opponent, vec
 	opponent->get_player().setKing(0);
 	current->get_player().setKing(1);
 
-	current->write("Je hebt " + std::to_string(buildings) + " goud ontvangen!");
+	current->write("Je hebt " + std::to_string(buildings) + " goud ontvangen voor elk geel gebouw!");
 	current->write("Je mag de volgende beurt als eerst beginnen!");
 	
 

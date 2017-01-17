@@ -44,6 +44,16 @@ void register_client(const shared_ptr<Client> client)
 		game.initialise();
 		game.run();
 
+		for(auto client : get_clients())
+		{
+			
+			client->write("Bedankt voor het spelen van Machiavelli. We wachten met smart op de volgende keer!");
+			client->close();
+
+		}
+
+		clients.clear();
+
 	}
 
 }
@@ -51,14 +61,17 @@ void register_client(const shared_ptr<Client> client)
 void deregister_client(const shared_ptr<Client> client)
 {
 	
-	client->write("Thank you for playing Machiavelli. We will await your return!");
-	client->close();
+	if(client != nullptr)
+	{
+		client->write("Bedankt voor het spelen van Machiavelli. We wachten met smart op de volgende keer!");
+		client->close();	
+	}
 	clients.erase(std::remove(clients.begin(), clients.end(), client), clients.end());
 
 	if (clients.size() > 0)
 	{
 		auto c = clients[0];
-		c->write("The other connection was lost. Force exit game. You win!");
+		c->write("De andere speler heeft het spel verlaten. Jij wint!");
 		c->close();
 		clients.clear();
 	}

@@ -5,19 +5,14 @@ void Magier::handle(shared_ptr<Client> current, shared_ptr<Client> opponent, vec
 {
 
 	current->write("");
+	current->write("===== Acties: Magier =====");
 	current->write("Wat wil je doen?\r\n[0] - Alle bouwkaarten ruilen met andere speler\r\n[1] - Bouwkaarten afleggen en opnieuw trekken");
 
 	
-	std::string c;
-	int choice = -1;
+	auto choice = current->readnumber();
 
-	while(choice != 0 && choice != 1)
-	{
-		current->writeInput("> ");
-		c = current->readline();
-		choice = stoi(c);
-		current->write("");
-	}
+	while (choice != 0 && choice != 1)
+		choice = current->readnumber();
 
 	if (choice == 0)
 	{
@@ -37,8 +32,9 @@ void Magier::handle(shared_ptr<Client> current, shared_ptr<Client> opponent, vec
 		auto done = false;
 		auto removedCards = 0;
 
-		while(done)
+		while(!done)
 		{
+
 			current->write("Deze kaarten heb je nu in bezit, welke wil je inleveren? (als je klaar bent gebruik s om te stoppen)");
 			for (auto i = 0; i < current->get_player().get_building_cards().size(); i++)
 			{
@@ -46,21 +42,32 @@ void Magier::handle(shared_ptr<Client> current, shared_ptr<Client> opponent, vec
 			}
 
 			string input = current->readline();
-			int choice = -1;
+			int c = -1;
 
 			if(input == "s")
 				done = true;
 			else
+			{
 				try
 				{
-					choice = stoi(input);
-					removedCards++;
-					current->get_player().get_building_cards().erase(current->get_player().get_building_cards().begin()+choice);
+					c = stoi(input);
+
+					if(c >= 0 && c < current->get_player().get_building_cards().size())
+					{
+						current->get_player().remove_building_card(c);
+						removedCards++;
+					}
+	
 				}
-				catch(...)
+				catch (...)
 				{
-				
+
 				}
+			}
+				
+
+			if (current->get_player().get_building_cards().size() == 0)
+				break;
 
 
 		}

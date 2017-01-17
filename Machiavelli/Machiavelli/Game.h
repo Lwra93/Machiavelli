@@ -13,6 +13,7 @@ class Game
 {
 
 public:
+	~Game();
 	void initialise();
 	void run();
 

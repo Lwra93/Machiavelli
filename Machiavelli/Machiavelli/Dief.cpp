@@ -5,6 +5,7 @@ void Dief::handle(shared_ptr<Client> current, shared_ptr<Client> opponent, vecto
 {
 
 	current->write("");
+	current->write("===== Acties: Dief =====");
 	current->write("Wie wil je bestelen: ");
 
 	for (auto card : characters)

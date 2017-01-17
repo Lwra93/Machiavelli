@@ -10,9 +10,11 @@ void handle_client(Socket socket)
 	if (get_clients().size() < 2)
 	{
 
+		shared_ptr<Client> client;
+
 		try {
 
-			auto client = make_shared<Client>(move(socket));
+			client = make_shared<Client>(move(socket));
 			client->hello();
 			register_client(client);
 
@@ -31,13 +33,13 @@ void handle_client(Socket socket)
 
 		}
 		catch (exception en) {
-			cerr << "handle_client crashed\n" << en.what();
+			cerr << client->get_player().get_name() + " disconnected. Deregistering client.\n";
 		}
 
 	}
 	else
 	{
-		socket.write("Terribly sorry, but the game cannot contain more players.");
+		socket.write("Het spijt ons, maar het maximum aantal spelers is bereikt!");
 		cerr << "Refusing incoming connection on " << socket.get_dotted_ip() << "!\r\n";
 	}
 
@@ -54,11 +56,11 @@ Client::Client(Socket socket)
 void Client::hello()
 {
 
-	this->socket.write("Welcome to Server 1.0! To quit, type 'quit'.\r\n");
-	this->socket.write("What's your name?\r\n");
+	this->socket.write("Welkom bij Machiavelli! Om te stoppen, typ 'quit'\r\n");
+	this->socket.write("Wat is je naam?\r\n");
 	auto name{ this->readline() };
 
-	this->socket.write("What's your age?\r\n");
+	this->socket.write("Wat is je leeftijd?\r\n");
 	auto age = -1;
 
 	while(age < 0)
@@ -69,7 +71,7 @@ void Client::hello()
 	Player player { name, age };
 	this->player = player;
 
-	this->socket << "Welcome, " << player.get_name() << ", have fun playing our game!\r\n";
+	this->socket << "Welkom, " << player.get_name() << ", en veel plezier!\r\n";
 
 }
 
