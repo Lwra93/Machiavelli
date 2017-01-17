@@ -76,12 +76,11 @@ void Game::run()
 
 	int id = (points[0] > points[1] ? 0 : 1);
 	writeToAll("");
+	writeToAll(get_clients()[0]->get_player().get_name() + ": " + std::to_string(points[0]) + " punten.");
+	writeToAll(get_clients()[1]->get_player().get_name() + ": " + std::to_string(points[1]) + " punten.");
+	writeToAll("");
 	writeToAll("Het spel is afgelopen! " + get_clients()[id]->get_player().get_name() + " heeft gewonnen!");
-
-	//WINNAAR!
-
-	
-
+	writeToAll("");
 
 }
 

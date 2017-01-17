@@ -3,6 +3,7 @@
 #include "GameServer.h"
 #include "Game.h"
 #include <algorithm>
+#include "config.h"
 
 
 vector<shared_ptr<Client>> clients;
@@ -99,6 +100,8 @@ GameServer::~GameServer()
 
 void GameServer::run(ServerSocket socket) const
 {
+
+	cerr << "Server is online on port " + std::to_string(config::port) + "\n";
 
 	while (true) {
 		try {
