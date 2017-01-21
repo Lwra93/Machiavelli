@@ -145,6 +145,7 @@
     <ClInclude Include="Bouwmeester.h" />
     <ClInclude Include="BuildCard.h" />
     <ClInclude Include="CharacterCard.h" />
+    <ClInclude Include="CircularBuffer.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="ClientCommand.h" />
     <ClInclude Include="ClientInfo.h" />

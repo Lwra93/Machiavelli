@@ -17,20 +17,6 @@ void handle_client(Socket socket)
 			client = make_shared<Client>(move(socket));
 			client->hello();
 			register_client(client);
-
-			//while (true)
-			//{
-			//	/*auto client_command{ client->listen() };
-
-			//	if (client_command == "quit")
-			//		break;
-
-			//	ClientCommand cmd{ client_command, client };
-			//	commands::add(cmd);*/
-			//}
-
-			//deregister_client(client);
-
 		}
 		catch (exception en) {
 			cerr << client->get_player().get_name() + " disconnected. Deregistering client.\n";
@@ -75,13 +61,13 @@ void Client::hello()
 
 }
 
-const string Client::listen() const
+const string Client::listen()
 {
 
 	string cmd{ "error" };
 	try
 	{
-		cmd = socket.readline();
+		cmd = this->readline();
 		cerr << '[' << socket.get_dotted_ip() << " (" << socket.get_socket() << ") " << player.get_name() << "] " << cmd << "\r\n";
 
 	}
@@ -112,12 +98,25 @@ void Client::writeInput(string line) const
 const string Client::readline() 
 {
 	this->socket.write("> ");
-	auto line = this->socket.readline();
 
-	if (line == "quit")
+	std::string result = "";
+
+	std::function<void(std::string line)> function = [&](std::string line) { result = line; };
+
+	bool worked = false;
+
+	while(!worked)
+	{
+		worked = this->socket.readline(function);
+	}
+
+	if (result == "quit")
 		deregister_client(shared_from_this());
+	else if (result == "quit_server")
+		shutdown_machiavelli();
+	
 
-	return line;
+	return result;
 }
 
 const int Client::readnumber()

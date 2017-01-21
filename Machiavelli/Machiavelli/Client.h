@@ -16,7 +16,7 @@ public:
 	const Socket& get_socket() const;
 
 	void hello();
-	const string listen() const;
+	const string listen();
 	void write(string line) const;
 	void writeInput(string line) const;
 	const string Client::readline();

@@ -71,9 +71,7 @@ void Player::add_building(const shared_ptr<BuildCard> card)
 
 void Player::remove_building_card(const int id)
 {
-
 	buildingCards.erase(buildingCards.begin() + id);
-
 }
 
 void Player::remove_building(const int id)

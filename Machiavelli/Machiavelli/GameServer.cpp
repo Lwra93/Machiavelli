@@ -8,6 +8,21 @@
 
 vector<shared_ptr<Client>> clients;
 
+void shutdown_machiavelli()
+{
+	running = false;
+
+	for (auto client : get_clients())
+	{
+		client->write("");
+		client->write("De server is nu gesloten. Bedankt voor het spelen van Machiavelli. We wachten met smart op de volgende keer!");
+		client->close();
+	}
+
+	clients.clear();
+
+}
+
 vector<shared_ptr<Client>> get_clients()
 {
 	return clients;
@@ -100,26 +115,31 @@ GameServer::~GameServer()
 
 void GameServer::run(ServerSocket socket) const
 {
-
+	vector<thread> all_threads;
 	cerr << "Server is online on port " + std::to_string(config::port) + "\n";
 
-	while (true) {
-		try {
-			while (true) {
-				cerr << "server listening" << '\n';
-				auto client{ socket.accept() };
-
-				thread handler{ handle_client, move(client) };
-				handler.detach();
-			}
-		}
-		catch (const exception& ex) {
-			cerr << ex.what() << ", resuming..." << '\n';
-		}
-		catch (...) {
-			cerr << "problems, problems, but: keep calm and carry on!\n";
+	try {
+		cerr << "server listening" << '\n';
+		while (running) {
+			// wait for connection from client; will create new socket
+			socket.accept([&all_threads](Socket client) {
+				std::cerr << "Connection accepted from " << client.get_dotted_ip() << "\n";
+				all_threads.emplace_back(handle_client, move(client));
+			});
+			this_thread::sleep_for(chrono::milliseconds(100));
 		}
 	}
+	catch (const exception& ex) {
+		cerr << ex.what() << ", resuming..." << '\n';
+	}
+	catch (...) {
+		cerr << "problems, problems, but: keep calm and carry on!\n";
+	}
+
+	for (auto &t : all_threads) {
+		t.join();
+	}
+
 
 }
 

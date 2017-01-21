@@ -6,6 +6,9 @@
 
 using namespace std;
 
+static bool running = true;
+
+void shutdown_machiavelli();
 vector<shared_ptr<Client>> get_clients();
 void sort_age();
 void sort_king();

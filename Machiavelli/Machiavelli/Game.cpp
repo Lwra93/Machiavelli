@@ -7,10 +7,8 @@
 
 Game::~Game()
 {
-
 	characterCards.clear();
 	buildCards.clear();
-
 }
 
 void Game::initialise()
@@ -305,7 +303,9 @@ void Game::play_first(shared_ptr<CharacterCard> currentCard, vector<shared_ptr<B
 		while (id != 0 && id != 1)
 			id = current->readnumber();
 
+		current->get_player().add_building_card(drawn.at(id));
 		current->write("Je hebt " + drawn.at(id)->get_name() + " ontvangen!");
+		drawn.erase(drawn.begin() + id);
 		first = true;
 
 
@@ -385,8 +385,6 @@ void Game::play_second(shared_ptr<CharacterCard> currentCard, vector<shared_ptr<
 	}
 
 	second = true;
-
-
 
 }
 
