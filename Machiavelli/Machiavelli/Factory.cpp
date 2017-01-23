@@ -96,25 +96,8 @@ namespace factory
 		auto path = config::buildingCardsLocation;
 		vector<shared_ptr<BuildCard>> buildings;
 		ifstream file{ path };
-		string line;
 
-		if (file.is_open())
-		{
-			while (getline(file, line))
-			{
-
-				auto values = split(line, ';');
-				auto name = values[0];
-				auto value = stoi(values[1]);
-				auto color = values[2];
-				auto description = (values.size() > 3 ? values[3] : "");
-
-				buildings.push_back(move(get_building(name ,value, color, description)));
-
-
-			}
-		}
-
+		file >> buildings;
 
 		return buildings;
 
@@ -126,26 +109,61 @@ namespace factory
 		auto path = config::characterCardsLocation;
 		vector<shared_ptr<CharacterCard>> cards;
 		ifstream file{ path };
-		string line;
 
-		if(file.is_open())
-		{
-			while(getline(file, line))
-			{
-				
-				auto values = split(line, ';');
-				auto id = stoi(values[0]);
-				auto name = values[1];
-
-				cards.push_back(move(get_character(id, name)));
-
-
-			}
-		}
-		
+		file >> cards;
 
 		return cards;
 
 	}
 
+	std::ifstream& operator>>(std::ifstream& stream, vector<shared_ptr<BuildCard>>& vector)
+	{
+
+		std::string line;
+
+		if (stream.is_open())
+		{
+
+			while (getline(stream, line))
+			{
+
+				auto values = factory::split(line, ';');
+				auto name = values[0];
+				auto value = stoi(values[1]);
+				auto color = values[2];
+				auto description = (values.size() > 3 ? values[3] : "");
+
+				vector.push_back(move(factory::get_building(name, value, color, description)));
+
+
+			}
+		}
+
+		return stream;
+
+	}
+
+	std::ifstream& operator>>(std::ifstream& stream, vector<shared_ptr<CharacterCard>>& vector)
+	{
+
+		std::string line;
+
+		if (stream.is_open())
+		{
+			while (getline(stream, line))
+			{
+
+				auto values = split(line, ';');
+				auto id = stoi(values[0]);
+				auto name = values[1];
+
+				vector.push_back(move(get_character(id, name)));
+
+
+			}
+		}
+
+		return stream;
+
+	}
 }

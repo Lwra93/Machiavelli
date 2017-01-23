@@ -1,3 +1,21 @@
-﻿  GameServer.cpp
+﻿  Factory.cpp
+  CharacterCard.cpp
+  Generating Code...
+  Compiling...
+  main.cpp
+  Prediker.cpp
+  Moordenaar.cpp
+  Magier.cpp
+  Koopman.cpp
+  Koning.cpp
+  GameServer.cpp
+  Game.cpp
+d:\bram\documents\avans\2016-2017\blok 14\cpp2\machiavelli\machiavelli\machiavelli\game.cpp(38): warning C4129: 'W': unrecognized character escape sequence
+  Dief.cpp
+  Condottiere.cpp
+  Client.cpp
+  BuildCard.cpp
+  Bouwmeester.cpp
+  Generating Code...
   Machiavelli.vcxproj -> D:\Bram\Documents\Avans\2016-2017\Blok 14\CPP2\Machiavelli\Machiavelli\x64\Debug\Machiavelli.exe
   Machiavelli.vcxproj -> D:\Bram\Documents\Avans\2016-2017\Blok 14\CPP2\Machiavelli\Machiavelli\x64\Debug\Machiavelli.pdb (Partial PDB)

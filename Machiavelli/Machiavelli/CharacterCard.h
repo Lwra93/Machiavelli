@@ -24,6 +24,8 @@ public:
 	void rob();
 	const bool isRobbed() const;
 
+	friend std::ostream& operator<<(std::ostream&, const shared_ptr<CharacterCard>);
+
 protected:
 	int id;
 	std::string name;

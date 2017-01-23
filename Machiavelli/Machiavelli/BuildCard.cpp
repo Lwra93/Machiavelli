@@ -1,5 +1,6 @@
 #pragma once
 #include "BuildCard.h"
+#include "Factory.h"
 
 BuildCard::BuildCard(string name, int value, string color)
 {
@@ -25,4 +26,16 @@ const string BuildCard::get_color() const
 	return this->color;
 }
 
+std::ostream& operator<<(std::ostream& out, const shared_ptr<BuildCard> card)
+{
 
+	out << "Name: ";
+	out << card->get_name() << std::endl;
+	out << "Color: ";
+	out << card->get_color() << std::endl;
+	out << "Value: ";
+	out << card->get_value() << std::endl;
+
+	return out;
+
+}

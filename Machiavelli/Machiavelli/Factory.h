@@ -19,4 +19,7 @@ namespace factory
 	vector<shared_ptr<CharacterCard>>load_characters();
 	void add_card(int, string, vector<CharacterCard> &elems);
 
+	std::ifstream& operator>> (std::ifstream& stream, vector<shared_ptr<BuildCard>>& vector);
+	std::ifstream& operator>> (std::ifstream& stream, vector<shared_ptr<CharacterCard>>& vector);
+
 }

@@ -30,3 +30,13 @@ const bool CharacterCard::isRobbed() const
 {
 	return this->robbed;
 }
+
+std::ostream& operator<<(std::ostream& out, const shared_ptr<CharacterCard> card)
+{
+
+	out << "Name: ";
+	out << card->get_name();
+
+	return out;
+
+}
